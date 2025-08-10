@@ -10,7 +10,8 @@
       "email": "you@example.com",
       "github": "https://github.com/yourname",
       "linkedin": "https://www.linkedin.com/in/yourname/",
-      "resumeUrl": "#"
+      "instagram": "https://www.instagram.com/yourname/",
+      "resumeUrl": "assets/resume.pdf"
     }
   },
   "experience": [
@@ -56,6 +57,16 @@
       "issueDate": "2023",
       "credentialId": "ABC-123",
       "verifyUrl": "https://www.credly.com/your-badge"
+    }
+  ],
+  "art": [
+    {
+      "title": "Acrylic Duo",
+      "caption": "Two acrylic paintings showcasing texture and color blending.",
+      "image1": "assets/img/art1.jpg",
+      "image1Alt": "Acrylic painting one",
+      "image2": "assets/img/art2.jpg",
+      "image2Alt": "Acrylic painting two"
     }
   ],
   "publications": [],

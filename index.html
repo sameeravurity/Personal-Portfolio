@@ -17,9 +17,10 @@
           <a href="#projects">Projects</a>
           <a href="#education">Education</a>
           <a href="#certifications">Certifications</a>
+          <a href="#art">Acrylic Art</a>
           <a href="#contact">Contact</a>
         </nav>
-        <div class="header-actions">
+        <div class="header-actions owner-only">
           <button id="editToggle" class="btn" aria-pressed="false" aria-label="Toggle edit mode">Edit</button>
           <button id="exportBtn" class="btn edit-only" aria-label="Export content JSON">Export</button>
           <button id="importBtn" class="btn edit-only" aria-label="Import content JSON">Import</button>
@@ -31,7 +32,10 @@
     <main id="main" class="site-main" role="main">
       <section id="about" class="section">
         <div class="container">
-          <h2>About</h2>
+          <div class="section-header">
+            <h2>About</h2>
+            <button class="btn edit-only" data-action="edit-profile" aria-label="Edit profile">✏️ Edit Profile</button>
+          </div>
           <div id="aboutContent" class="about"></div>
         </div>
       </section>
@@ -76,6 +80,16 @@
         </div>
       </section>
 
+      <section id="art" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Acrylic Art</h2>
+            <button class="btn edit-only" data-action="add" data-section="art" aria-label="Add artwork">➕ Add</button>
+          </div>
+          <div id="artList" class="grid"></div>
+        </div>
+      </section>
+
       <section id="publications" class="section optional">
         <div class="container">
           <div class="section-header">
@@ -107,6 +121,10 @@
     <footer class="site-footer" role="contentinfo">
       <div class="container">
         <p>&copy; <span id="year"></span> <span id="footerName">Your Name</span>. All rights reserved.</p>
+        <div class="footer-actions">
+          <button id="ownerLogin" class="btn btn-small" aria-label="Owner login">Owner login</button>
+          <button id="ownerLogout" class="btn btn-small owner-only" aria-label="Owner logout">Owner logout</button>
+        </div>
       </div>
     </footer>
 

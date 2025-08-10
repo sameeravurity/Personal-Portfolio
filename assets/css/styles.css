@@ -28,9 +28,7 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
   line-height: 1.6;
   color: var(--text);
-  background: radial-gradient(1200px 800px at 10% -10%, #121621, transparent 60%),
-              radial-gradient(1200px 800px at 90% -10%, #0f1420, transparent 60%),
-              var(--bg);
+  background: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 45%, #ec4899 100%);
 }
 
 .visually-hidden {
@@ -85,6 +83,9 @@ body {
 }
 
 .header-actions { display: flex; align-items: center; gap: var(--space-2); }
+/* Owner controls hidden by default; enabled when owner mode is active via localStorage flag */
+.owner-only { display: none; }
+body.owner .owner-only { display: inline-flex; }
 
 .section { padding: var(--space-6) 0; }
 .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); }
@@ -160,11 +161,13 @@ h3 { font-size: 1.125rem; }
 }
 .btn:hover, .btn:focus { outline: none; box-shadow: 0 0 0 3px var(--ring); }
 .btn-primary { background: var(--accent); border-color: var(--accent); color: #081126; }
+.btn-small { padding: 6px 10px; font-size: 0.9rem; }
 
 a.link { color: #9ec1ff; }
 a.link:hover, a.link:focus { color: #cfe1ff; }
 
 .site-footer { border-top: 1px solid rgba(255,255,255,0.06); padding: var(--space-5) 0; color: var(--muted); }
+.site-footer .footer-actions { margin-top: var(--space-3); display: flex; gap: var(--space-2); }
 
 /* Dialog */
 dialog {
@@ -202,4 +205,19 @@ body.editing .edit-only { display: inline-flex; }
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; }
+}
+
+/* Art section */
+.art-images {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+.art-images img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: var(--radius-2);
+  border: 1px solid rgba(255,255,255,0.1);
 }
