@@ -42,6 +42,14 @@ const SECTION_SCHEMAS = {
     { key: 'credentialId', label: 'Credential ID', type: 'text', required: false },
     { key: 'verifyUrl', label: 'Verify URL (Credly etc.)', type: 'url', required: false },
   ],
+  art: [
+    { key: 'title', label: 'Title', type: 'text', required: false },
+    { key: 'caption', label: 'Caption', type: 'text', required: false },
+    { key: 'image1', label: 'Image 1 URL', type: 'url', required: true },
+    { key: 'image1Alt', label: 'Image 1 Alt text', type: 'text', required: false },
+    { key: 'image2', label: 'Image 2 URL', type: 'url', required: true },
+    { key: 'image2Alt', label: 'Image 2 Alt text', type: 'text', required: false },
+  ],
   publications: [
     { key: 'title', label: 'Title', type: 'text', required: true },
     { key: 'venue', label: 'Venue', type: 'text', required: false },
@@ -122,6 +130,42 @@ function openDialog(title, fields) {
   });
 }
 
+async function handleEditProfile() {
+  const p = content.profile || { name: '', tagline: '', summary: '', location: '', availability: '', headshot: '', social: {} };
+  const s = p.social || {};
+  const fields = [
+    { key: 'name', label: 'Name', type: 'text', required: true, value: p.name || '' },
+    { key: 'tagline', label: 'Tagline', type: 'text', required: false, value: p.tagline || '' },
+    { key: 'summary', label: 'About me summary', type: 'textarea', required: false, value: p.summary || '' },
+    { key: 'location', label: 'Location', type: 'text', required: false, value: p.location || '' },
+    { key: 'availability', label: 'Availability', type: 'text', required: false, value: p.availability || '' },
+    { key: 'headshot', label: 'Headshot URL', type: 'url', required: false, value: p.headshot || '' },
+    { key: 'email', label: 'Email', type: 'text', required: false, value: s.email || '' },
+    { key: 'github', label: 'GitHub URL', type: 'url', required: false, value: s.github || '' },
+    { key: 'linkedin', label: 'LinkedIn URL', type: 'url', required: false, value: s.linkedin || '' },
+    { key: 'resumeUrl', label: 'Resume URL', type: 'url', required: false, value: s.resumeUrl || '' },
+  ];
+  try {
+    const values = await openDialog('Edit Profile', fields);
+    content.profile = {
+      name: values.name || '',
+      tagline: values.tagline || '',
+      summary: values.summary || '',
+      location: values.location || '',
+      availability: values.availability || '',
+      headshot: values.headshot || '',
+      social: {
+        email: values.email || '',
+        github: values.github || '',
+        linkedin: values.linkedin || '',
+        resumeUrl: values.resumeUrl || ''
+      }
+    };
+    saveContent(content);
+    dispatchContentUpdated();
+  } catch (_) {}
+}
+
 function mapFormToItem(section, values, original = {}) {
   const copy = { ...original };
   switch (section) {
@@ -161,6 +205,15 @@ function mapFormToItem(section, values, original = {}) {
       copy.issueDate = values.issueDate || '';
       copy.credentialId = values.credentialId || '';
       copy.verifyUrl = values.verifyUrl || '';
+      break;
+    }
+    case 'art': {
+      copy.title = values.title || '';
+      copy.caption = values.caption || '';
+      copy.image1 = values.image1 || '';
+      copy.image1Alt = values.image1Alt || '';
+      copy.image2 = values.image2 || '';
+      copy.image2Alt = values.image2Alt || '';
       break;
     }
     case 'publications': {
@@ -225,6 +278,15 @@ function getInitialValues(section, item = {}) {
         issueDate: item.issueDate || '',
         credentialId: item.credentialId || '',
         verifyUrl: item.verifyUrl || '',
+      };
+    case 'art':
+      return {
+        title: item.title || '',
+        caption: item.caption || '',
+        image1: item.image1 || '',
+        image1Alt: item.image1Alt || '',
+        image2: item.image2 || '',
+        image2Alt: item.image2Alt || '',
       };
     case 'publications':
       return {
@@ -298,6 +360,11 @@ function onMainClick(e) {
   const card = target.closest('[data-section]');
   const section = target.getAttribute('data-section') || card?.getAttribute('data-section');
   const index = card ? parseInt(card.getAttribute('data-index') || '-1', 10) : -1;
+
+  if (action === 'edit-profile') {
+    e.preventDefault();
+    return void handleEditProfile();
+  }
 
   if (action === 'add') {
     e.preventDefault();

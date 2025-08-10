@@ -13,7 +13,7 @@ async function loadBaseContent() {
     console.error(err);
     baseContentCache = {
       profile: { name: 'Your Name', tagline: '', summary: '', location: '', availability: '', headshot: '', social: { email: '', github: '', linkedin: '', resumeUrl: '' } },
-      experience: [], projects: [], education: [], certifications: [], publications: [], courses: []
+      experience: [], projects: [], education: [], certifications: [], art: [], publications: [], courses: []
     };
     return baseContentCache;
   }
@@ -65,7 +65,7 @@ export async function importContentFromFile(file) {
   const json = JSON.parse(text);
   if (!json || typeof json !== 'object') throw new Error('Invalid JSON');
   // Very light validation
-  const requiredKeys = ['profile', 'experience', 'projects', 'education', 'certifications'];
+  const requiredKeys = ['profile', 'experience', 'projects', 'education', 'certifications', 'art'];
   for (const key of requiredKeys) {
     if (!(key in json)) throw new Error(`Missing key: ${key}`);
   }

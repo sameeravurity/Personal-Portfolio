@@ -58,6 +58,16 @@
       "verifyUrl": "https://www.credly.com/your-badge"
     }
   ],
+  "art": [
+    {
+      "title": "Acrylic Duo",
+      "caption": "Two acrylic paintings showcasing texture and color blending.",
+      "image1": "assets/img/art1.jpg",
+      "image1Alt": "Acrylic painting one",
+      "image2": "assets/img/art2.jpg",
+      "image2Alt": "Acrylic painting two"
+    }
+  ],
   "publications": [],
   "courses": []
 }

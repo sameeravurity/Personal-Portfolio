@@ -104,6 +104,26 @@ function renderCertifications(container, data) {
   `).join('');
 }
 
+function renderArt(container, data) {
+  const items = data.art || [];
+  container.innerHTML = items.map((item, idx) => `
+    <article class="card" data-section="art" data-index="${idx}">
+      <h3>${escapeHtml(item.title || 'Artwork')}</h3>
+      ${item.caption ? `<p>${escapeHtml(item.caption)}</p>` : ''}
+      <div class="art-images">
+        ${item.image1 ? `<img src="${escapeHtml(item.image1)}" alt="${escapeHtml(item.image1Alt || 'Artwork image 1')}" loading="lazy" />` : ''}
+        ${item.image2 ? `<img src="${escapeHtml(item.image2)}" alt="${escapeHtml(item.image2Alt || 'Artwork image 2')}" loading="lazy" />` : ''}
+      </div>
+      <div class="actions edit-only">
+        <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
+        <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
+        <button class="icon-btn" data-action="edit" aria-label="Edit item">✏️</button>
+        <button class="icon-btn" data-action="delete" aria-label="Delete item">🗑️</button>
+      </div>
+    </article>
+  `).join('');
+}
+
 function renderPublications(container, data) {
   const items = data.publications || [];
   const section = document.getElementById('publications');
@@ -160,6 +180,7 @@ function renderAll() {
   const projEl = document.getElementById('projectsList');
   const eduEl = document.getElementById('educationList');
   const certEl = document.getElementById('certificationsList');
+  const artEl = document.getElementById('artList');
   const pubEl = document.getElementById('publicationsList');
   const crsEl = document.getElementById('coursesList');
   const contactEl = document.getElementById('contactContent');
@@ -169,6 +190,7 @@ function renderAll() {
   renderProjects(projEl, content);
   renderEducation(eduEl, content);
   renderCertifications(certEl, content);
+  renderArt(artEl, content);
   renderPublications(pubEl, content);
   renderCourses(crsEl, content);
   renderContact(contactEl, content);

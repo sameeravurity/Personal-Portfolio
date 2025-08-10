@@ -17,6 +17,7 @@
           <a href="#projects">Projects</a>
           <a href="#education">Education</a>
           <a href="#certifications">Certifications</a>
+          <a href="#art">Acrylic Art</a>
           <a href="#contact">Contact</a>
         </nav>
         <div class="header-actions">
@@ -31,7 +32,10 @@
     <main id="main" class="site-main" role="main">
       <section id="about" class="section">
         <div class="container">
-          <h2>About</h2>
+          <div class="section-header">
+            <h2>About</h2>
+            <button class="btn edit-only" data-action="edit-profile" aria-label="Edit profile">✏️ Edit Profile</button>
+          </div>
           <div id="aboutContent" class="about"></div>
         </div>
       </section>
@@ -73,6 +77,16 @@
             <button class="btn edit-only" data-action="add" data-section="certifications" aria-label="Add certification">➕ Add</button>
           </div>
           <div id="certificationsList" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="art" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Acrylic Art</h2>
+            <button class="btn edit-only" data-action="add" data-section="art" aria-label="Add artwork">➕ Add</button>
+          </div>
+          <div id="artList" class="grid"></div>
         </div>
       </section>
 
