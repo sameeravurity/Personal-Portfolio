@@ -1,0 +1,63 @@
+{
+  "profile": {
+    "name": "Your Name",
+    "tagline": "Engineer • Builder • Learner",
+    "summary": "I design and build simple, reliable software with a focus on user-centric outcomes.",
+    "location": "City, Country",
+    "availability": "Open to opportunities",
+    "headshot": "",
+    "social": {
+      "email": "you@example.com",
+      "github": "https://github.com/yourname",
+      "linkedin": "https://www.linkedin.com/in/yourname/",
+      "resumeUrl": "#"
+    }
+  },
+  "experience": [
+    {
+      "company": "Acme Co.",
+      "role": "Software Engineer",
+      "startDate": "2022",
+      "endDate": "Present",
+      "location": "Remote",
+      "summaryBullets": [
+        "Shipped features improving conversion by 12%",
+        "Reduced p95 latency by 180ms"
+      ],
+      "tags": ["TypeScript", "Node.js", "Postgres"],
+      "link": "https://acme.example.com"
+    }
+  ],
+  "projects": [
+    {
+      "title": "Portfolio Site",
+      "summary": "A lightweight, accessible personal portfolio site.",
+      "highlights": ["Vanilla HTML/CSS/JS", "Simple edit mode", "Export/Import JSON"],
+      "repoUrl": "https://github.com/yourname/portfolio",
+      "demoUrl": "#"
+    }
+  ],
+  "education": [
+    {
+      "institution": "Example University",
+      "degree": "B.Sc.",
+      "field": "Computer Science",
+      "startDate": "2018",
+      "endDate": "2022",
+      "location": "City",
+      "note": "Graduated with honors",
+      "link": "https://example.edu"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Cloud Practitioner",
+      "issuer": "AWS",
+      "issueDate": "2023",
+      "credentialId": "ABC-123",
+      "verifyUrl": "https://www.credly.com/your-badge"
+    }
+  ],
+  "publications": [],
+  "courses": []
+}

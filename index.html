@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portfolio</title>
+    <meta name="description" content="Personal portfolio" />
+    <link rel="stylesheet" href="assets/css/styles.css" />
+  </head>
+  <body>
+    <header class="site-header" role="banner">
+      <div class="container header-inner">
+        <a href="#about" class="brand" aria-label="Home">Portfolio</a>
+        <nav class="site-nav" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#education">Education</a>
+          <a href="#certifications">Certifications</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button id="editToggle" class="btn" aria-pressed="false" aria-label="Toggle edit mode">Edit</button>
+          <button id="exportBtn" class="btn edit-only" aria-label="Export content JSON">Export</button>
+          <button id="importBtn" class="btn edit-only" aria-label="Import content JSON">Import</button>
+          <input id="importInput" class="visually-hidden" type="file" accept="application/json" aria-hidden="true" />
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="site-main" role="main">
+      <section id="about" class="section">
+        <div class="container">
+          <h2>About</h2>
+          <div id="aboutContent" class="about"></div>
+        </div>
+      </section>
+
+      <section id="experience" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Experience</h2>
+            <button class="btn edit-only" data-action="add" data-section="experience" aria-label="Add experience">➕ Add</button>
+          </div>
+          <div id="experienceList" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Projects</h2>
+            <button class="btn edit-only" data-action="add" data-section="projects" aria-label="Add project">➕ Add</button>
+          </div>
+          <div id="projectsList" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="education" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Education</h2>
+            <button class="btn edit-only" data-action="add" data-section="education" aria-label="Add education">➕ Add</button>
+          </div>
+          <div id="educationList" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="certifications" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Certifications</h2>
+            <button class="btn edit-only" data-action="add" data-section="certifications" aria-label="Add certification">➕ Add</button>
+          </div>
+          <div id="certificationsList" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="publications" class="section optional">
+        <div class="container">
+          <div class="section-header">
+            <h2>Publications</h2>
+            <button class="btn edit-only" data-action="add" data-section="publications" aria-label="Add publication">➕ Add</button>
+          </div>
+          <div id="publicationsList" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="courses" class="section optional">
+        <div class="container">
+          <div class="section-header">
+            <h2>Courses</h2>
+            <button class="btn edit-only" data-action="add" data-section="courses" aria-label="Add course">➕ Add</button>
+          </div>
+          <div id="coursesList" class="grid"></div>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="container">
+          <h2>Contact</h2>
+          <div id="contactContent" class="contact"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div class="container">
+        <p>&copy; <span id="year"></span> <span id="footerName">Your Name</span>. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <dialog id="editorDialog" aria-labelledby="dialogTitle">
+      <form id="editorForm" method="dialog">
+        <h3 id="dialogTitle">Edit item</h3>
+        <div id="formFields" class="form-fields"></div>
+        <div class="dialog-actions">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn" id="cancelDialog">Cancel</button>
+        </div>
+      </form>
+    </dialog>
+
+    <noscript>
+      <div class="container" style="padding: 1rem;">
+        <p>Please enable JavaScript to view and edit dynamic content.</p>
+      </div>
+    </noscript>
+
+    <script type="module" src="assets/js/app.js" defer></script>
+    <script type="module" src="assets/js/edit-mode.js" defer></script>
+  </body>
+</html>
