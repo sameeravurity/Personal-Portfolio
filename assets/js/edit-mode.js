@@ -143,6 +143,7 @@ async function handleEditProfile() {
     { key: 'email', label: 'Email', type: 'text', required: false, value: s.email || '' },
     { key: 'github', label: 'GitHub URL', type: 'url', required: false, value: s.github || '' },
     { key: 'linkedin', label: 'LinkedIn URL', type: 'url', required: false, value: s.linkedin || '' },
+    { key: 'instagram', label: 'Instagram URL', type: 'url', required: false, value: s.instagram || '' },
     { key: 'resumeUrl', label: 'Resume URL', type: 'url', required: false, value: s.resumeUrl || '' },
   ];
   try {
@@ -158,6 +159,7 @@ async function handleEditProfile() {
         email: values.email || '',
         github: values.github || '',
         linkedin: values.linkedin || '',
+        instagram: values.instagram || '',
         resumeUrl: values.resumeUrl || ''
       }
     };
@@ -386,6 +388,29 @@ function onMainClick(e) {
 
 async function init() {
   content = await getContent();
+
+  // Owner controls: simple local-only gate
+  const isOwner = localStorage.getItem('portfolio_owner') === '1';
+  document.body.classList.toggle('owner', isOwner);
+
+  const ownerLogin = document.getElementById('ownerLogin');
+  const ownerLogout = document.getElementById('ownerLogout');
+  const OWNER_CODE = 'changeme'; // Change this to your private code before publishing
+  if (ownerLogin) ownerLogin.addEventListener('click', () => {
+    const code = prompt('Enter owner code:');
+    if (code === OWNER_CODE) {
+      localStorage.setItem('portfolio_owner', '1');
+      document.body.classList.add('owner');
+      alert('Owner mode enabled');
+    } else if (code != null) {
+      alert('Incorrect code');
+    }
+  });
+  if (ownerLogout) ownerLogout.addEventListener('click', () => {
+    localStorage.removeItem('portfolio_owner');
+    document.body.classList.remove('owner');
+    alert('Owner mode disabled');
+  });
 
   const editToggle = document.getElementById('editToggle');
   if (editToggle) {

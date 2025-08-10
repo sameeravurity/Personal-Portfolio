@@ -169,7 +169,8 @@ function renderContact(container, data) {
   if (s.email) parts.push(`<a class="link" href="mailto:${escapeHtml(s.email)}">Email</a>`);
   if (s.github) parts.push(`<a class="link" href="${escapeHtml(s.github)}" target="_blank" rel="noopener">GitHub</a>`);
   if (s.linkedin) parts.push(`<a class="link" href="${escapeHtml(s.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`);
-  if (s.resumeUrl) parts.push(`<a class="link" href="${escapeHtml(s.resumeUrl)}" target="_blank" rel="noopener">Resume</a>`);
+  if (s.instagram) parts.push(`<a class="link" href="${escapeHtml(s.instagram)}" target="_blank" rel="noopener">Instagram</a>`);
+  if (s.resumeUrl) parts.push(`<a class="link" href="${escapeHtml(s.resumeUrl)}" target="_blank" rel="noopener">Resume (PDF)</a>`);
   container.innerHTML = parts.join(' · ');
 }
 

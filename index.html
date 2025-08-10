@@ -20,7 +20,7 @@
           <a href="#art">Acrylic Art</a>
           <a href="#contact">Contact</a>
         </nav>
-        <div class="header-actions">
+        <div class="header-actions owner-only">
           <button id="editToggle" class="btn" aria-pressed="false" aria-label="Toggle edit mode">Edit</button>
           <button id="exportBtn" class="btn edit-only" aria-label="Export content JSON">Export</button>
           <button id="importBtn" class="btn edit-only" aria-label="Import content JSON">Import</button>
@@ -121,6 +121,10 @@
     <footer class="site-footer" role="contentinfo">
       <div class="container">
         <p>&copy; <span id="year"></span> <span id="footerName">Your Name</span>. All rights reserved.</p>
+        <div class="footer-actions">
+          <button id="ownerLogin" class="btn btn-small" aria-label="Owner login">Owner login</button>
+          <button id="ownerLogout" class="btn btn-small owner-only" aria-label="Owner logout">Owner logout</button>
+        </div>
       </div>
     </footer>
 

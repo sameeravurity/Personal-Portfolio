@@ -83,6 +83,9 @@ body {
 }
 
 .header-actions { display: flex; align-items: center; gap: var(--space-2); }
+/* Owner controls hidden by default; enabled when owner mode is active via localStorage flag */
+.owner-only { display: none; }
+body.owner .owner-only { display: inline-flex; }
 
 .section { padding: var(--space-6) 0; }
 .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-4); }
@@ -158,11 +161,13 @@ h3 { font-size: 1.125rem; }
 }
 .btn:hover, .btn:focus { outline: none; box-shadow: 0 0 0 3px var(--ring); }
 .btn-primary { background: var(--accent); border-color: var(--accent); color: #081126; }
+.btn-small { padding: 6px 10px; font-size: 0.9rem; }
 
 a.link { color: #9ec1ff; }
 a.link:hover, a.link:focus { color: #cfe1ff; }
 
 .site-footer { border-top: 1px solid rgba(255,255,255,0.06); padding: var(--space-5) 0; color: var(--muted); }
+.site-footer .footer-actions { margin-top: var(--space-3); display: flex; gap: var(--space-2); }
 
 /* Dialog */
 dialog {

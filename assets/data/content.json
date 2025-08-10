@@ -10,7 +10,8 @@
       "email": "you@example.com",
       "github": "https://github.com/yourname",
       "linkedin": "https://www.linkedin.com/in/yourname/",
-      "resumeUrl": "#"
+      "instagram": "https://www.instagram.com/yourname/",
+      "resumeUrl": "assets/resume.pdf"
     }
   },
   "experience": [
