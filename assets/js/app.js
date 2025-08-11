@@ -117,7 +117,6 @@ function renderContact(container, data) {
   if (s.github) parts.push(`<a class="link" href="${escapeHtml(s.github)}" target="_blank" rel="noopener">GitHub</a>`);
   if (s.linkedin) parts.push(`<a class="link" href="${escapeHtml(s.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`);
   if (s.instagram) parts.push(`<a class="link" href="${escapeHtml(s.instagram)}" target="_blank" rel="noopener">Instagram</a>`);
-  if (s.resumeDataUrl || s.resumeUrl) parts.push(`<a class="link" href="${escapeHtml(s.resumeDataUrl || s.resumeUrl)}" target="_blank" rel="noopener">Resume (PDF)</a>`);
   container.innerHTML = parts.join(' · ');
 }
 
@@ -134,8 +133,6 @@ function renderAll() {
   const eduEl = document.getElementById('educationList');
   const certEl = document.getElementById('certificationsList');
   const skillsEl = document.getElementById('skillsList');
-  const moreArtEl = document.getElementById('moreArtList');
-  const morePubEl = document.getElementById('morePublicationsList');
   const contactEl = document.getElementById('contactContent');
 
   renderAbout(aboutEl, content);
@@ -144,8 +141,6 @@ function renderAll() {
   renderEducation(eduEl, content);
   renderCertifications(certEl, content);
   renderSkills(skillsEl, content);
-  renderMoreArt(moreArtEl, content);
-  renderMorePublications(morePubEl, content);
   renderContact(contactEl, content);
 }
 

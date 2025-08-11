@@ -67,22 +67,5 @@
     { "name": "CSS" },
     { "name": "Git" },
     { "name": "Figma" }
-  ],
-  "moreArt": [
-    {
-      "title": "Ocean Acrylic",
-      "image": "assets/img/art1.jpg",
-      "imageAlt": "Blue ocean acrylic painting",
-      "description": "Exploration of texture and color blending in acrylics."
-    }
-  ],
-  "morePublications": [
-    {
-      "title": "Design Systems that Scale",
-      "image": "assets/img/pub1.jpg",
-      "imageAlt": "Design system cover",
-      "description": "An article about scalable design systems and component libraries.",
-      "link": "https://example.com/article"
-    }
   ]
 }
