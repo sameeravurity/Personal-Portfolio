@@ -87,43 +87,25 @@ function renderCertifications(container, data) {
   `).join('');
 }
 
-function renderArt(container, data) {
-  const items = data.art || [];
+function renderMoreArt(container, data) {
+  const items = data.moreArt || [];
   container.innerHTML = items.map((item, idx) => `
-    <article class="card" data-section="art" data-index="${idx}">
+    <article class="card" data-section="moreArt" data-index="${idx}">
       <h3>${escapeHtml(item.title || 'Artwork')}</h3>
-      ${item.caption ? `<p>${escapeHtml(item.caption)}</p>` : ''}
-      <div class="art-images">
-        ${item.image1 ? `<img src="${escapeHtml(item.image1)}" alt="${escapeHtml(item.image1Alt || 'Artwork image 1')}" loading="lazy" />` : ''}
-        ${item.image2 ? `<img src="${escapeHtml(item.image2)}" alt="${escapeHtml(item.image2Alt || 'Artwork image 2')}" loading="lazy" />` : ''}
-      </div>
+      ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.imageAlt || 'Art image')}" loading="lazy" style="width:100%;height:260px;object-fit:cover;border-radius:10px;border:1px solid rgba(0,0,0,0.08);"/>` : ''}
+      ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
     </article>
   `).join('');
 }
 
-function renderPublications(container, data) {
-  const items = data.publications || [];
-  const section = document.getElementById('publications');
-  if (section) section.style.display = items.length ? '' : 'none';
+function renderMorePublications(container, data) {
+  const items = data.morePublications || [];
   container.innerHTML = items.map((item, idx) => `
-    <article class="card" data-section="publications" data-index="${idx}">
-      <h3>${escapeHtml(item.title || '')}</h3>
-      <p class="muted">${escapeHtml(item.venue || '')}${item.year ? ' · ' + escapeHtml(item.year) : ''}</p>
-      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Read</a></p>` : ''}
-      ${item.note ? `<p>${escapeHtml(item.note)}</p>` : ''}
-    </article>
-  `).join('');
-}
-
-function renderCourses(container, data) {
-  const items = data.courses || [];
-  const section = document.getElementById('courses');
-  if (section) section.style.display = items.length ? '' : 'none';
-  container.innerHTML = items.map((item, idx) => `
-    <article class="card" data-section="courses" data-index="${idx}">
-      <h3>${escapeHtml(item.name || '')}</h3>
-      <p class="muted">${escapeHtml(item.provider || '')}${item.date ? ' · ' + escapeHtml(item.date) : ''}</p>
-      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">View</a></p>` : ''}
+    <article class="card" data-section="morePublications" data-index="${idx}">
+      <h3>${escapeHtml(item.title || 'Publication')}</h3>
+      ${item.image ? `<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.imageAlt || 'Publication image')}" loading="lazy" style="width:100%;height:200px;object-fit:cover;border-radius:10px;border:1px solid rgba(0,0,0,0.08);"/>` : ''}
+      ${item.description ? `<p>${escapeHtml(item.description)}</p>` : ''}
+      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Read article</a></p>` : ''}
     </article>
   `).join('');
 }
@@ -151,10 +133,9 @@ function renderAll() {
   const projEl = document.getElementById('projectsList');
   const eduEl = document.getElementById('educationList');
   const certEl = document.getElementById('certificationsList');
-  const artEl = document.getElementById('artList');
   const skillsEl = document.getElementById('skillsList');
-  const pubEl = document.getElementById('publicationsList');
-  const crsEl = document.getElementById('coursesList');
+  const moreArtEl = document.getElementById('moreArtList');
+  const morePubEl = document.getElementById('morePublicationsList');
   const contactEl = document.getElementById('contactContent');
 
   renderAbout(aboutEl, content);
@@ -162,10 +143,9 @@ function renderAll() {
   renderProjects(projEl, content);
   renderEducation(eduEl, content);
   renderCertifications(certEl, content);
-  renderArt(artEl, content);
   renderSkills(skillsEl, content);
-  renderPublications(pubEl, content);
-  renderCourses(crsEl, content);
+  renderMoreArt(moreArtEl, content);
+  renderMorePublications(morePubEl, content);
   renderContact(contactEl, content);
 }
 
@@ -174,7 +154,7 @@ async function init() {
     content = await getContent();
   } catch (e) {
     console.error('Failed to load content', e);
-    content = { profile: { name: 'Your Name', social: {} }, experience: [], projects: [], education: [], certifications: [], publications: [], courses: [] };
+    content = { profile: { name: 'Your Name', social: {} }, experience: [], projects: [], education: [], certifications: [], moreArt: [], morePublications: [] };
   }
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());

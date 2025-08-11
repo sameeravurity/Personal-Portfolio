@@ -51,9 +51,8 @@ body {
 }
 
 .site-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  position: relative;
+  z-index: 10;
   backdrop-filter: blur(8px);
   background: rgba(255,255,255,0.7);
   border-bottom: 1px solid rgba(0,0,0,0.06);
@@ -231,8 +230,8 @@ body.editing .edit-only { display: inline-flex; }
 }
 .chip:hover, .chip:focus { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
 
-/* Anchor offset for sticky header */
-section { scroll-margin-top: 76px; }
+/* Anchor offset no longer needed since header is not overlaying */
+section { scroll-margin-top: 0; }
 
 /* Focus styles */
 :focus { outline: none; box-shadow: 0 0 0 3px var(--ring); border-radius: 6px; }

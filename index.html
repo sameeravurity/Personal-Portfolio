@@ -10,15 +10,15 @@
   <body>
     <header class="site-header" role="banner">
       <div class="container header-inner">
-        <a href="#about" class="brand" aria-label="Home">Portfolio</a>
+        
         <nav class="site-nav" aria-label="Primary">
           <a href="#about">About</a>
           <a href="#experience">Experience</a>
           <a href="#projects">Projects</a>
           <a href="#education">Education</a>
           <a href="#certifications">Certifications</a>
-          <a href="#art">Acrylic Art</a>
           <a href="#skills">Skills</a>
+          <a href="#more">More</a>
           <a href="#contact">Contact</a>
         </nav>
         <div class="public-actions">
@@ -84,16 +84,6 @@
         </div>
       </section>
 
-      <section id="art" class="section">
-        <div class="container">
-          <div class="section-header">
-            <h2>Acrylic Art</h2>
-            <button class="btn edit-only" data-action="add" data-section="art" aria-label="Add artwork">➕ Add</button>
-          </div>
-          <div id="artList" class="grid"></div>
-        </div>
-      </section>
-
       <section id="skills" class="section">
         <div class="container">
           <div class="section-header">
@@ -104,23 +94,27 @@
         </div>
       </section>
 
-      <section id="publications" class="section optional">
+      <section id="more" class="section">
         <div class="container">
           <div class="section-header">
-            <h2>Publications</h2>
-            <button class="btn edit-only" data-action="add" data-section="publications" aria-label="Add publication">➕ Add</button>
+            <h2>More</h2>
           </div>
-          <div id="publicationsList" class="grid"></div>
-        </div>
-      </section>
-
-      <section id="courses" class="section optional">
-        <div class="container">
-          <div class="section-header">
-            <h2>Courses</h2>
-            <button class="btn edit-only" data-action="add" data-section="courses" aria-label="Add course">➕ Add</button>
+          <div class="grid">
+            <article class="card">
+              <div class="section-header">
+                <h3>Art</h3>
+                <button class="btn edit-only" data-action="add" data-section="moreArt" aria-label="Add artwork">➕ Add</button>
+              </div>
+              <div id="moreArtList" class="grid"></div>
+            </article>
+            <article class="card">
+              <div class="section-header">
+                <h3>Publications</h3>
+                <button class="btn edit-only" data-action="add" data-section="morePublications" aria-label="Add publication">➕ Add</button>
+              </div>
+              <div id="morePublicationsList" class="grid"></div>
+            </article>
           </div>
-          <div id="coursesList" class="grid"></div>
         </div>
       </section>
 
