@@ -14,7 +14,8 @@ function escapeHtml(str) {
 
 function renderAbout(container, data) {
   const { profile } = data;
-  const headshot = profile.headshot ? `<img src="${escapeHtml(profile.headshot)}" alt="Headshot of ${escapeHtml(profile.name)}" class="avatar" loading="lazy" />` : '<div class="avatar" aria-hidden="true" style="background: rgba(0,0,0,0.06);"></div>';
+  const headshotSrc = profile.headshot || '';
+  const headshot = headshotSrc ? `<img src="${escapeHtml(headshotSrc)}" alt="Headshot of ${escapeHtml(profile.name)}" class="avatar" loading="lazy" />` : '<div class="avatar" aria-hidden="true" style="background: rgba(0,0,0,0.06);"></div>';
   container.innerHTML = `
     <div>${headshot}</div>
     <div>
@@ -28,7 +29,7 @@ function renderAbout(container, data) {
   if (footerName) footerName.textContent = profile.name || 'Your Name';
   const resumeTop = document.getElementById('resumeTop');
   if (resumeTop) {
-    const url = profile?.social?.resumeUrl || '#';
+    const url = profile?.social?.resumeDataUrl || profile?.social?.resumeUrl || '#';
     resumeTop.href = url;
   }
 }
@@ -42,12 +43,6 @@ function renderExperience(container, data) {
       ${item.summaryBullets && item.summaryBullets.length ? `<ul>${item.summaryBullets.filter(Boolean).map(b=>`<li>${escapeHtml(b)}</li>`).join('')}</ul>` : ''}
       ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Learn more</a></p>` : ''}
       ${item.tags && item.tags.length ? `<div class="tags">${item.tags.slice(0,5).map(t=>`<span class="badge">${escapeHtml(t)}</span>`).join('')}</div>` : ''}
-      <div class="actions edit-only">
-        <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
-        <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
-        <button class="icon-btn" data-action="edit" aria-label="Edit item">✏️</button>
-        <button class="icon-btn" data-action="delete" aria-label="Delete item">🗑️</button>
-      </div>
     </article>
   `).join('');
 }
@@ -63,12 +58,6 @@ function renderProjects(container, data) {
         ${item.repoUrl ? `<a class="link" href="${escapeHtml(item.repoUrl)}" target="_blank" rel="noopener noreferrer">Repo</a>` : ''}
         ${item.demoUrl ? ` · <a class="link" href="${escapeHtml(item.demoUrl)}" target="_blank" rel="noopener noreferrer">Demo</a>` : ''}
       </p>
-      <div class="actions edit-only">
-        <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
-        <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
-        <button class="icon-btn" data-action="edit" aria-label="Edit item">✏️</button>
-        <button class="icon-btn" data-action="delete" aria-label="Delete item">🗑️</button>
-      </div>
     </article>
   `).join('');
 }
@@ -82,12 +71,6 @@ function renderEducation(container, data) {
       <p class="muted">${escapeHtml(item.startDate || '')} – ${escapeHtml(item.endDate || '')}${item.location ? ' · ' + escapeHtml(item.location) : ''}</p>
       ${item.note ? `<p>${escapeHtml(item.note)}</p>` : ''}
       ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Program page</a></p>` : ''}
-      <div class="actions edit-only">
-        <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
-        <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
-        <button class="icon-btn" data-action="edit" aria-label="Edit item">✏️</button>
-        <button class="icon-btn" data-action="delete" aria-label="Delete item">🗑️</button>
-      </div>
     </article>
   `).join('');
 }
@@ -98,13 +81,8 @@ function renderCertifications(container, data) {
     <article class="card" data-section="certifications" data-index="${idx}">
       <h3>${escapeHtml(item.name || '')}</h3>
       <p class="muted">${escapeHtml(item.issuer || '')}${item.issueDate ? ' · ' + escapeHtml(item.issueDate) : ''}${item.credentialId ? ' · ID ' + escapeHtml(item.credentialId) : ''}</p>
+      ${item.badge ? `<img src="${escapeHtml(item.badge)}" alt="${escapeHtml(item.name || 'Certification badge')}" style="width:64px;height:64px;object-fit:contain;border-radius:8px;border:1px solid rgba(0,0,0,0.08);" loading="lazy" />` : ''}
       ${item.verifyUrl ? `<p><a class="link" href="${escapeHtml(item.verifyUrl)}" target="_blank" rel="noopener noreferrer">View credential</a></p>` : ''}
-      <div class="actions edit-only">
-        <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
-        <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
-        <button class="icon-btn" data-action="edit" aria-label="Edit item">✏️</button>
-        <button class="icon-btn" data-action="delete" aria-label="Delete item">🗑️</button>
-      </div>
     </article>
   `).join('');
 }
@@ -118,12 +96,6 @@ function renderArt(container, data) {
       <div class="art-images">
         ${item.image1 ? `<img src="${escapeHtml(item.image1)}" alt="${escapeHtml(item.image1Alt || 'Artwork image 1')}" loading="lazy" />` : ''}
         ${item.image2 ? `<img src="${escapeHtml(item.image2)}" alt="${escapeHtml(item.image2Alt || 'Artwork image 2')}" loading="lazy" />` : ''}
-      </div>
-      <div class="actions edit-only">
-        <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
-        <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
-        <button class="icon-btn" data-action="edit" aria-label="Edit item">✏️</button>
-        <button class="icon-btn" data-action="delete" aria-label="Delete item">🗑️</button>
       </div>
     </article>
   `).join('');
@@ -139,12 +111,6 @@ function renderPublications(container, data) {
       <p class="muted">${escapeHtml(item.venue || '')}${item.year ? ' · ' + escapeHtml(item.year) : ''}</p>
       ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Read</a></p>` : ''}
       ${item.note ? `<p>${escapeHtml(item.note)}</p>` : ''}
-      <div class="actions edit-only">
-        <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
-        <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
-        <button class="icon-btn" data-action="edit" aria-label="Edit item">✏️</button>
-        <button class="icon-btn" data-action="delete" aria-label="Delete item">🗑️</button>
-      </div>
     </article>
   `).join('');
 }
@@ -158,12 +124,6 @@ function renderCourses(container, data) {
       <h3>${escapeHtml(item.name || '')}</h3>
       <p class="muted">${escapeHtml(item.provider || '')}${item.date ? ' · ' + escapeHtml(item.date) : ''}</p>
       ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">View</a></p>` : ''}
-      <div class="actions edit-only">
-        <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
-        <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
-        <button class="icon-btn" data-action="edit" aria-label="Edit item">✏️</button>
-        <button class="icon-btn" data-action="delete" aria-label="Delete item">🗑️</button>
-      </div>
     </article>
   `).join('');
 }
@@ -175,8 +135,13 @@ function renderContact(container, data) {
   if (s.github) parts.push(`<a class="link" href="${escapeHtml(s.github)}" target="_blank" rel="noopener">GitHub</a>`);
   if (s.linkedin) parts.push(`<a class="link" href="${escapeHtml(s.linkedin)}" target="_blank" rel="noopener">LinkedIn</a>`);
   if (s.instagram) parts.push(`<a class="link" href="${escapeHtml(s.instagram)}" target="_blank" rel="noopener">Instagram</a>`);
-  if (s.resumeUrl) parts.push(`<a class="link" href="${escapeHtml(s.resumeUrl)}" target="_blank" rel="noopener">Resume (PDF)</a>`);
+  if (s.resumeDataUrl || s.resumeUrl) parts.push(`<a class="link" href="${escapeHtml(s.resumeDataUrl || s.resumeUrl)}" target="_blank" rel="noopener">Resume (PDF)</a>`);
   container.innerHTML = parts.join(' · ');
+}
+
+function renderSkills(container, data) {
+  const items = data.skills || [];
+  container.innerHTML = items.map((item) => `<span class="chip" tabindex="0">${escapeHtml(item.name || item)}</span>`).join('');
 }
 
 function renderAll() {
@@ -187,6 +152,7 @@ function renderAll() {
   const eduEl = document.getElementById('educationList');
   const certEl = document.getElementById('certificationsList');
   const artEl = document.getElementById('artList');
+  const skillsEl = document.getElementById('skillsList');
   const pubEl = document.getElementById('publicationsList');
   const crsEl = document.getElementById('coursesList');
   const contactEl = document.getElementById('contactContent');
@@ -197,6 +163,7 @@ function renderAll() {
   renderEducation(eduEl, content);
   renderCertifications(certEl, content);
   renderArt(artEl, content);
+  renderSkills(skillsEl, content);
   renderPublications(pubEl, content);
   renderCourses(crsEl, content);
   renderContact(contactEl, content);
