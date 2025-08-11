@@ -97,10 +97,21 @@ function openDialog(title, fields) {
     const label = document.createElement('label');
     label.setAttribute('for', id);
     label.textContent = field.label + (field.required ? ' *' : '');
-    const input = field.type === 'textarea' ? document.createElement('textarea') : document.createElement('input');
+    let input;
+    if (field.type === 'textarea') {
+      input = document.createElement('textarea');
+    } else if (field.type === 'file') {
+      input = document.createElement('input');
+      input.type = 'file';
+      if (field.accept) input.setAttribute('accept', field.accept);
+      if (field.multiple) input.multiple = true;
+      if (field.maxSizeBytes) input.setAttribute('data-max', String(field.maxSizeBytes));
+    } else {
+      input = document.createElement('input');
+      input.type = field.type;
+    }
     input.id = id;
     input.name = field.key;
-    if (field.type !== 'textarea') input.type = field.type;
     if (field.placeholder) input.placeholder = field.placeholder;
     if (field.value != null) input.value = field.value;
     if (field.required) input.required = true;
@@ -116,11 +127,36 @@ function openDialog(title, fields) {
       e.preventDefault();
       const data = new FormData(form);
       const result = {};
-      for (const [k, v] of data.entries()) result[k] = v.toString().trim();
-      dialog.close('submit');
-      form.removeEventListener('submit', onSubmit);
-      cancelBtn.removeEventListener('click', onCancel);
-      resolve(result);
+      const fileReads = [];
+      for (const [k, v] of data.entries()) {
+        const el = form.querySelector(`[name="${CSS.escape(k)}"]`);
+        if (el && el instanceof HTMLInputElement && el.type === 'file') {
+          const file = el.files && el.files[0];
+          if (file) {
+            const max = Number(el.getAttribute('data-max') || '0');
+            if (max && file.size > max) {
+              alert(`${k}: file too large. Limit is ${Math.round(max/1024/1024)}MB`);
+              return;
+            }
+            const readerPromise = new Promise((res, rej) => {
+              const reader = new FileReader();
+              reader.onerror = () => rej(new Error('read failed'));
+              reader.onload = () => res([k, String(reader.result)]);
+              reader.readAsDataURL(file);
+            });
+            fileReads.push(readerPromise);
+          }
+        } else {
+          result[k] = v.toString().trim();
+        }
+      }
+      Promise.all(fileReads).then((pairs) => {
+        for (const [k, dataUrl] of pairs) result[k] = dataUrl;
+        dialog.close('submit');
+        form.removeEventListener('submit', onSubmit);
+        cancelBtn.removeEventListener('click', onCancel);
+        resolve(result);
+      }).catch(() => alert('Failed to read file'));
     }
     function onCancel() {
       dialog.close('cancel');
@@ -142,12 +178,14 @@ async function handleEditProfile() {
     { key: 'summary', label: 'About me summary', type: 'textarea', required: false, value: p.summary || '' },
     { key: 'location', label: 'Location', type: 'text', required: false, value: p.location || '' },
     { key: 'availability', label: 'Availability', type: 'text', required: false, value: p.availability || '' },
-    { key: 'headshot', label: 'Headshot URL', type: 'url', required: false, value: p.headshot || '' },
+    { key: 'headshot', label: 'Headshot URL (optional)', type: 'url', required: false, value: p.headshot || '' },
+    { key: 'headshotFile', label: 'Upload headshot (<= 2MB)', type: 'file', accept: 'image/png,image/jpeg', maxSizeBytes: 2 * 1024 * 1024 },
     { key: 'email', label: 'Email', type: 'text', required: false, value: s.email || '' },
     { key: 'github', label: 'GitHub URL', type: 'url', required: false, value: s.github || '' },
     { key: 'linkedin', label: 'LinkedIn URL', type: 'url', required: false, value: s.linkedin || '' },
     { key: 'instagram', label: 'Instagram URL', type: 'url', required: false, value: s.instagram || '' },
-    { key: 'resumeUrl', label: 'Resume URL', type: 'url', required: false, value: s.resumeUrl || '' },
+    { key: 'resumeUrl', label: 'Resume URL (optional)', type: 'url', required: false, value: s.resumeUrl || '' },
+    { key: 'resumeFile', label: 'Upload resume (PDF/DOC/DOCX)', type: 'file', accept: 'application/pdf,.doc,.docx', maxSizeBytes: 10 * 1024 * 1024 },
   ];
   try {
     const values = await openDialog('Edit Profile', fields);
@@ -157,13 +195,14 @@ async function handleEditProfile() {
       summary: values.summary || '',
       location: values.location || '',
       availability: values.availability || '',
-      headshot: values.headshot || '',
+      headshot: values.headshotFile || values.headshot || '',
       social: {
         email: values.email || '',
         github: values.github || '',
         linkedin: values.linkedin || '',
         instagram: values.instagram || '',
-        resumeUrl: values.resumeUrl || ''
+        resumeUrl: values.resumeUrl || '',
+        resumeDataUrl: values.resumeFile || s.resumeDataUrl || ''
       }
     };
     saveContent(content);
@@ -210,14 +249,15 @@ function mapFormToItem(section, values, original = {}) {
       copy.issueDate = values.issueDate || '';
       copy.credentialId = values.credentialId || '';
       copy.verifyUrl = values.verifyUrl || '';
+      copy.badge = values.badgeFile || original.badge || '';
       break;
     }
     case 'art': {
       copy.title = values.title || '';
       copy.caption = values.caption || '';
-      copy.image1 = values.image1 || '';
+      copy.image1 = values.image1File || values.image1 || '';
       copy.image1Alt = values.image1Alt || '';
-      copy.image2 = values.image2 || '';
+      copy.image2 = values.image2File || values.image2 || '';
       copy.image2Alt = values.image2Alt || '';
       break;
     }
@@ -234,6 +274,10 @@ function mapFormToItem(section, values, original = {}) {
       copy.provider = values.provider || '';
       copy.date = values.date || '';
       copy.link = values.link || '';
+      break;
+    }
+    case 'skills': {
+      copy.name = values.name || '';
       break;
     }
   }
@@ -308,6 +352,8 @@ function getInitialValues(section, item = {}) {
         date: item.date || '',
         link: item.link || '',
       };
+    case 'skills':
+      return { name: item.name || '' };
   }
 }
 

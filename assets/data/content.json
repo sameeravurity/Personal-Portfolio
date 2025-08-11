@@ -56,7 +56,8 @@
       "issuer": "AWS",
       "issueDate": "2023",
       "credentialId": "ABC-123",
-      "verifyUrl": "https://www.credly.com/your-badge"
+      "verifyUrl": "https://www.credly.com/your-badge",
+      "badge": ""
     }
   ],
   "art": [
@@ -68,6 +69,13 @@
       "image2": "assets/img/art2.jpg",
       "image2Alt": "Acrylic painting two"
     }
+  ],
+  "skills": [
+    { "name": "JavaScript" },
+    { "name": "HTML" },
+    { "name": "CSS" },
+    { "name": "Git" },
+    { "name": "Figma" }
   ],
   "publications": [],
   "courses": []
