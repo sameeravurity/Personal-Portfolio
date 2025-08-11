@@ -2,6 +2,7 @@ import { getContent, saveContent, exportContent, importContentFromFile } from '.
 
 let content = null;
 let isEditing = false;
+const IS_LOCAL = ['localhost', '127.0.0.1'].includes(location.hostname);
 
 const SECTION_SCHEMAS = {
   experience: [
@@ -74,6 +75,8 @@ function dispatchEditModeChanged() {
 }
 
 function setEditing(on) {
+  // Disallow editing unless owner mode is active
+  if (!document.body.classList.contains('owner')) return;
   isEditing = !!on;
   const toggle = document.getElementById('editToggle');
   if (toggle) toggle.setAttribute('aria-pressed', String(isEditing));
@@ -359,6 +362,11 @@ function onMainClick(e) {
   if (!target) return;
   const action = target.getAttribute('data-action');
   if (!action) return;
+  // Block edit actions unless in local owner mode
+  if (!IS_LOCAL || !document.body.classList.contains('owner')) {
+    e.preventDefault();
+    return;
+  }
   const card = target.closest('[data-section]');
   const section = target.getAttribute('data-section') || card?.getAttribute('data-section');
   const index = card ? parseInt(card.getAttribute('data-index') || '-1', 10) : -1;
@@ -390,13 +398,18 @@ async function init() {
   content = await getContent();
 
   // Owner controls: simple local-only gate
-  const isOwner = localStorage.getItem('portfolio_owner') === '1';
+  const isOwner = IS_LOCAL && localStorage.getItem('portfolio_owner') === '1';
   document.body.classList.toggle('owner', isOwner);
 
   const ownerLogin = document.getElementById('ownerLogin');
   const ownerLogout = document.getElementById('ownerLogout');
   const OWNER_CODE = 'changeme'; // Change this to your private code before publishing
-  if (ownerLogin) ownerLogin.addEventListener('click', () => {
+  // Hide owner controls entirely if not local
+  if (!IS_LOCAL) {
+    if (ownerLogin) ownerLogin.style.display = 'none';
+    if (ownerLogout) ownerLogout.style.display = 'none';
+  }
+  if (IS_LOCAL && ownerLogin) ownerLogin.addEventListener('click', () => {
     const code = prompt('Enter owner code:');
     if (code === OWNER_CODE) {
       localStorage.setItem('portfolio_owner', '1');
@@ -406,23 +419,23 @@ async function init() {
       alert('Incorrect code');
     }
   });
-  if (ownerLogout) ownerLogout.addEventListener('click', () => {
+  if (IS_LOCAL && ownerLogout) ownerLogout.addEventListener('click', () => {
     localStorage.removeItem('portfolio_owner');
     document.body.classList.remove('owner');
     alert('Owner mode disabled');
   });
 
   const editToggle = document.getElementById('editToggle');
-  if (editToggle) {
+  if (IS_LOCAL && editToggle) {
     editToggle.addEventListener('click', () => setEditing(!isEditing));
   }
 
   const exportBtn = document.getElementById('exportBtn');
-  if (exportBtn) exportBtn.addEventListener('click', () => exportContent(content));
+  if (IS_LOCAL && exportBtn) exportBtn.addEventListener('click', () => exportContent(content));
 
   const importBtn = document.getElementById('importBtn');
   const importInput = document.getElementById('importInput');
-  if (importBtn && importInput) {
+  if (IS_LOCAL && importBtn && importInput) {
     importBtn.addEventListener('click', () => importInput.click());
     importInput.addEventListener('change', async (e) => {
       const file = e.target.files?.[0];
