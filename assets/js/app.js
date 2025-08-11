@@ -206,6 +206,39 @@ async function init() {
   }
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+  // Smooth scrolling for in-page links (reduced motion respected)
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReduced) {
+    const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const animateScrollTo = (toY, durationMs = 1200) => {
+      const startY = window.pageYOffset;
+      const deltaY = toY - startY;
+      const startTime = performance.now();
+      function step(now) {
+        const elapsed = now - startTime;
+        const t = Math.min(1, elapsed / durationMs);
+        const eased = easeInOutCubic(t);
+        window.scrollTo(0, startY + deltaY * eased);
+        if (t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    };
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (!href || href.length <= 1) return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        const headerOffset = 76; // match CSS scroll-margin-top
+        const rect = target.getBoundingClientRect();
+        const targetY = rect.top + window.pageYOffset - headerOffset;
+        animateScrollTo(targetY, 1200);
+      });
+    });
+  }
+
   renderAll();
 }
 
