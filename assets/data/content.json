@@ -11,7 +11,8 @@
       "github": "https://github.com/yourname",
       "linkedin": "https://www.linkedin.com/in/yourname/",
       "instagram": "https://www.instagram.com/yourname/",
-      "resumeUrl": "assets/resume.pdf"
+      "resumeUrl": "assets/resume.pdf",
+      "resumeDataUrl": ""
     }
   },
   "experience": [
@@ -60,16 +61,6 @@
       "badge": ""
     }
   ],
-  "art": [
-    {
-      "title": "Acrylic Duo",
-      "caption": "Two acrylic paintings showcasing texture and color blending.",
-      "image1": "assets/img/art1.jpg",
-      "image1Alt": "Acrylic painting one",
-      "image2": "assets/img/art2.jpg",
-      "image2Alt": "Acrylic painting two"
-    }
-  ],
   "skills": [
     { "name": "JavaScript" },
     { "name": "HTML" },
@@ -77,6 +68,21 @@
     { "name": "Git" },
     { "name": "Figma" }
   ],
-  "publications": [],
-  "courses": []
+  "moreArt": [
+    {
+      "title": "Ocean Acrylic",
+      "image": "assets/img/art1.jpg",
+      "imageAlt": "Blue ocean acrylic painting",
+      "description": "Exploration of texture and color blending in acrylics."
+    }
+  ],
+  "morePublications": [
+    {
+      "title": "Design Systems that Scale",
+      "image": "assets/img/pub1.jpg",
+      "imageAlt": "Design system cover",
+      "description": "An article about scalable design systems and component libraries.",
+      "link": "https://example.com/article"
+    }
+  ]
 }

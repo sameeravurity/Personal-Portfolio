@@ -43,14 +43,6 @@ const SECTION_SCHEMAS = {
     { key: 'credentialId', label: 'Credential ID', type: 'text', required: false },
     { key: 'verifyUrl', label: 'Verify URL (Credly etc.)', type: 'url', required: false },
   ],
-  art: [
-    { key: 'title', label: 'Title', type: 'text', required: false },
-    { key: 'caption', label: 'Caption', type: 'text', required: false },
-    { key: 'image1', label: 'Image 1 URL', type: 'url', required: true },
-    { key: 'image1Alt', label: 'Image 1 Alt text', type: 'text', required: false },
-    { key: 'image2', label: 'Image 2 URL', type: 'url', required: true },
-    { key: 'image2Alt', label: 'Image 2 Alt text', type: 'text', required: false },
-  ],
   publications: [
     { key: 'title', label: 'Title', type: 'text', required: true },
     { key: 'venue', label: 'Venue', type: 'text', required: false },
@@ -253,12 +245,7 @@ function mapFormToItem(section, values, original = {}) {
       break;
     }
     case 'art': {
-      copy.title = values.title || '';
-      copy.caption = values.caption || '';
-      copy.image1 = values.image1File || values.image1 || '';
-      copy.image1Alt = values.image1Alt || '';
-      copy.image2 = values.image2File || values.image2 || '';
-      copy.image2Alt = values.image2Alt || '';
+      // removed
       break;
     }
     case 'publications': {
@@ -269,15 +256,24 @@ function mapFormToItem(section, values, original = {}) {
       copy.note = values.note || '';
       break;
     }
-    case 'courses': {
-      copy.name = values.name || '';
-      copy.provider = values.provider || '';
-      copy.date = values.date || '';
-      copy.link = values.link || '';
-      break;
-    }
+    case 'courses': { break; }
     case 'skills': {
       copy.name = values.name || '';
+      break;
+    }
+    case 'moreArt': {
+      copy.title = values.title || '';
+      copy.image = values.imageFile || values.image || '';
+      copy.imageAlt = values.imageAlt || '';
+      copy.description = values.description || '';
+      break;
+    }
+    case 'morePublications': {
+      copy.title = values.title || '';
+      copy.image = values.imageFile || values.image || '';
+      copy.imageAlt = values.imageAlt || '';
+      copy.description = values.description || '';
+      copy.link = values.link || '';
       break;
     }
   }
@@ -329,14 +325,7 @@ function getInitialValues(section, item = {}) {
         verifyUrl: item.verifyUrl || '',
       };
     case 'art':
-      return {
-        title: item.title || '',
-        caption: item.caption || '',
-        image1: item.image1 || '',
-        image1Alt: item.image1Alt || '',
-        image2: item.image2 || '',
-        image2Alt: item.image2Alt || '',
-      };
+      return {};
     case 'publications':
       return {
         title: item.title || '',
@@ -346,14 +335,13 @@ function getInitialValues(section, item = {}) {
         note: item.note || '',
       };
     case 'courses':
-      return {
-        name: item.name || '',
-        provider: item.provider || '',
-        date: item.date || '',
-        link: item.link || '',
-      };
+      return {};
     case 'skills':
       return { name: item.name || '' };
+    case 'moreArt':
+      return { title: item.title || '', image: item.image || '', imageAlt: item.imageAlt || '', description: item.description || '' };
+    case 'morePublications':
+      return { title: item.title || '', image: item.image || '', imageAlt: item.imageAlt || '', description: item.description || '', link: item.link || '' };
   }
 }
 
@@ -506,3 +494,22 @@ async function init() {
 }
 
 window.addEventListener('DOMContentLoaded', init);
+
+// Extend schemas and override removed ones
+SECTION_SCHEMAS.certifications.push({ key: 'badgeFile', label: 'Upload badge (PNG/JPG)', type: 'file', accept: 'image/png,image/jpeg', maxSizeBytes: 2 * 1024 * 1024 });
+SECTION_SCHEMAS.moreArt = [
+  { key: 'title', label: 'Title', type: 'text', required: false },
+  { key: 'image', label: 'Image URL (optional)', type: 'url', required: false },
+  { key: 'imageFile', label: 'Upload Image (JPG/PNG)', type: 'file', accept: 'image/png,image/jpeg', maxSizeBytes: 5 * 1024 * 1024 },
+  { key: 'imageAlt', label: 'Image alt text', type: 'text', required: false },
+  { key: 'description', label: 'Description', type: 'textarea', required: false },
+];
+SECTION_SCHEMAS.morePublications = [
+  { key: 'title', label: 'Title', type: 'text', required: false },
+  { key: 'image', label: 'Image URL (optional)', type: 'url', required: false },
+  { key: 'imageFile', label: 'Upload Image (JPG/PNG)', type: 'file', accept: 'image/png,image/jpeg', maxSizeBytes: 5 * 1024 * 1024 },
+  { key: 'imageAlt', label: 'Image alt text', type: 'text', required: false },
+  { key: 'description', label: 'Description', type: 'textarea', required: false },
+  { key: 'link', label: 'Article link', type: 'url', required: false },
+];
+SECTION_SCHEMAS.skills = [ { key: 'name', label: 'Skill / Tool', type: 'text', required: true } ];
