@@ -14,7 +14,7 @@ function escapeHtml(str) {
 
 function renderAbout(container, data) {
   const { profile } = data;
-  const headshot = profile.headshot ? `<img src="${escapeHtml(profile.headshot)}" alt="Headshot of ${escapeHtml(profile.name)}" class="avatar" loading="lazy" />` : '<div class="avatar" aria-hidden="true" style="background: rgba(255,255,255,0.06);"></div>';
+  const headshot = profile.headshot ? `<img src="${escapeHtml(profile.headshot)}" alt="Headshot of ${escapeHtml(profile.name)}" class="avatar" loading="lazy" />` : '<div class="avatar" aria-hidden="true" style="background: rgba(0,0,0,0.06);"></div>';
   container.innerHTML = `
     <div>${headshot}</div>
     <div>
@@ -26,6 +26,11 @@ function renderAbout(container, data) {
   `;
   const footerName = document.getElementById('footerName');
   if (footerName) footerName.textContent = profile.name || 'Your Name';
+  const resumeTop = document.getElementById('resumeTop');
+  if (resumeTop) {
+    const url = profile?.social?.resumeUrl || '#';
+    resumeTop.href = url;
+  }
 }
 
 function renderExperience(container, data) {
@@ -55,8 +60,8 @@ function renderProjects(container, data) {
       ${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}
       ${item.highlights && item.highlights.length ? `<ul>${item.highlights.filter(Boolean).map(b=>`<li>${escapeHtml(b)}</li>`).join('')}</ul>` : ''}
       <p>
-        ${item.repoUrl ? `<a class="link" href="${escapeHtml(item.repoUrl)}" target="_blank" rel="noopener">Repo</a>` : ''}
-        ${item.demoUrl ? ` · <a class="link" href="${escapeHtml(item.demoUrl)}" target="_blank" rel="noopener">Demo</a>` : ''}
+        ${item.repoUrl ? `<a class="link" href="${escapeHtml(item.repoUrl)}" target="_blank" rel="noopener noreferrer">Repo</a>` : ''}
+        ${item.demoUrl ? ` · <a class="link" href="${escapeHtml(item.demoUrl)}" target="_blank" rel="noopener noreferrer">Demo</a>` : ''}
       </p>
       <div class="actions edit-only">
         <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
@@ -76,7 +81,7 @@ function renderEducation(container, data) {
       <p class="muted">${escapeHtml(item.degree || '')}${item.field ? ' · ' + escapeHtml(item.field) : ''}</p>
       <p class="muted">${escapeHtml(item.startDate || '')} – ${escapeHtml(item.endDate || '')}${item.location ? ' · ' + escapeHtml(item.location) : ''}</p>
       ${item.note ? `<p>${escapeHtml(item.note)}</p>` : ''}
-      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener">Program page</a></p>` : ''}
+      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Program page</a></p>` : ''}
       <div class="actions edit-only">
         <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
         <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
@@ -132,7 +137,7 @@ function renderPublications(container, data) {
     <article class="card" data-section="publications" data-index="${idx}">
       <h3>${escapeHtml(item.title || '')}</h3>
       <p class="muted">${escapeHtml(item.venue || '')}${item.year ? ' · ' + escapeHtml(item.year) : ''}</p>
-      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener">Read</a></p>` : ''}
+      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">Read</a></p>` : ''}
       ${item.note ? `<p>${escapeHtml(item.note)}</p>` : ''}
       <div class="actions edit-only">
         <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
@@ -152,7 +157,7 @@ function renderCourses(container, data) {
     <article class="card" data-section="courses" data-index="${idx}">
       <h3>${escapeHtml(item.name || '')}</h3>
       <p class="muted">${escapeHtml(item.provider || '')}${item.date ? ' · ' + escapeHtml(item.date) : ''}</p>
-      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener">View</a></p>` : ''}
+      ${item.link ? `<p><a class="link" href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer">View</a></p>` : ''}
       <div class="actions edit-only">
         <button class="icon-btn" data-action="move-up" aria-label="Move up">⬆️</button>
         <button class="icon-btn" data-action="move-down" aria-label="Move down">⬇️</button>
