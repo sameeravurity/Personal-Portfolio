@@ -178,11 +178,28 @@ async function init() {
         const target = document.querySelector(href);
         if (!target) return;
         e.preventDefault();
-        const headerOffset = 76; // match CSS scroll-margin-top
+        const headerOffset = 0;
         const rect = target.getBoundingClientRect();
         const targetY = rect.top + window.pageYOffset - headerOffset;
         animateScrollTo(targetY, 1200);
+        // Close mobile nav after click
+        const nav = document.getElementById('primaryNav');
+        const toggle = document.getElementById('navToggle');
+        if (nav && toggle && nav.classList.contains('open')) {
+          nav.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
       });
+    });
+  }
+
+  // Mobile nav toggle
+  const nav = document.getElementById('primaryNav');
+  const toggle = document.getElementById('navToggle');
+  if (nav && toggle) {
+    toggle.addEventListener('click', () => {
+      const isOpen = nav.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
   }
 
