@@ -283,5 +283,7 @@ section { scroll-margin-top: 0; }
     border-bottom: 1px solid rgba(0,0,0,0.08);
   }
   .site-nav.open { display: flex; }
-  .public-actions { display: none; }
+  .public-actions { display: inline-flex; margin-left: auto; }
+  .header-inner { gap: var(--space-2); }
+  #resumeTop { white-space: nowrap; }
 }
