@@ -50,6 +50,9 @@ Click Export to download content.json.
 Replace assets/data/content.json in your repo with the exported one.
 
 Commit and push.
+## Deployment on Github pages
+The applictaion code can be deployed by opening github pages and selecting the repo and the branch to be deployed. 
+
 ## Deployment on AWS EC2 (Ubuntu)
 #### Prerequisites
 AWS account, SSH key pair, security group open to:
