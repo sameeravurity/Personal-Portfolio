@@ -82,46 +82,29 @@ sudo systemctl enable --now nginx
 ### Deploy site files 
 Option A: Git (recommended)
 ```bash
-sudo mkdir -p /var/www/portfolio
-sudo chown -R ubuntu:ubuntu /var/www/portfolio
-cd /var/www/portfolio
-git clone https://github.com/<your-user>/<your-repo>.git .
+git clone https://github.com/<your-user>/<your-repo>.git
+cd <your-repo>
 ```
+### Move project files to nginx web root
+```bash
+sudo rm -rf /var/www/html/*
+sudo cp -r * /var/www/html/
+```
+### Restart nginx
+```bash
+sudo systemctl restart nginx
+```
+
+Visit http://YOUR_EC2_IP
+
 If updating later:
 ```bash
 git pull
 ```
-Option B: Upload from your machine
-```bash
-scp -i /path/to/key.pem -r * ubuntu@YOUR_EC2_IP:/tmp/site
-ssh -i /path/to/key.pem ubuntu@YOUR_EC2_IP
-sudo mkdir -p /var/www/portfolio
-sudo rsync -av /tmp/site/ /var/www/portfolio/
-```
-Configure Nginx server block
-```bash
-sudo bash -c 'cat >/etc/nginx/sites-available/portfolio <<EOF
-server {
-  listen 80;
-  server_name _;
-  root /var/www/portfolio;
-  index index.html;
-
-  location / {
-    try_files $uri $uri/ =404;
-  }
-}
-EOF'
-sudo ln -s /etc/nginx/sites-available/portfolio /etc/nginx/sites-enabled/portfolio
-sudo nginx -t && sudo systemctl reload nginx
-```
-
-Visit http://YOUR_EC2_IP
 
 ## Summary
 
 * Stack: HTML/CSS/JS static site; content in assets/data/content.json.
 * Local owner-only edits; public site is read-only.
 * Deployment: Nginx on Ubuntu EC2 with optional domain + HTTPS.
-* Security: locked-down SSH/ports, auto-updates, branch protection.
-* Monitoring: uptime checks, Nginx logs, optional CloudWatch/analytics.
+
